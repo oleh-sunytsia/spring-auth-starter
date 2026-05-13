@@ -163,10 +163,10 @@ Authorization: Bearer {accessToken}
 - [x] Exception classes
 
 ### Phase 2: 🔄 Backend Implementation
-- [ ] JWT providers (HMAC, RSA)
-- [ ] AuthService implementation
-- [ ] Spring Security configuration
-- [ ] REST controllers
+- [x] JWT providers (HMAC, RSA)
+- [x] AuthService implementation
+- [x] Spring Security configuration
+- [x] REST controllers
 - [ ] Unit tests
 
 ### Phase 3: Frontend (Angular)
