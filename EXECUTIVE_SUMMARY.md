@@ -6,13 +6,13 @@ This plan provides a **complete blueprint** for implementing a production-ready,
 
 ### What You'll Build
 
-1. **spring-auth-starter** (Maven Dependency)
+1. **benatti-auth-starter** (Maven Dependency)
    - Spring Boot 3.x starter package
    - JWT-based authentication/authorization
    - ~3,000 lines of code
    - Published to Maven Central
 
-2. **@authlib/ng-auth-lib** (npm Package)
+2. **@benatti/ng-auth-lib** (npm Package)
    - Angular 16+ library
    - Standalone composition API
    - Guards, Interceptors, Services
