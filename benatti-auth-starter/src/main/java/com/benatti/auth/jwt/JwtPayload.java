@@ -1,6 +1,5 @@
 package com.benatti.auth.jwt;
 
-import com.benatti.auth.exception.JwtException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
