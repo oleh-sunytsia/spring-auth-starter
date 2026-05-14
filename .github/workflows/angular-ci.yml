@@ -1,0 +1,41 @@
+name: Angular CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: ng-auth-lib/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ng-auth-lib
+        run: npm ci
+
+      - name: Run tests with coverage
+        working-directory: ng-auth-lib
+        run: npm run test:coverage
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ng-coverage
+          path: ng-auth-lib/coverage/
+
+      - name: Build library (smoke test)
+        working-directory: ng-auth-lib
+        run: npm run build

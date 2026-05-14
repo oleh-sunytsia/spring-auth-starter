@@ -1,0 +1,45 @@
+name: Publish Angular Library to npm
+
+on:
+  push:
+    tags:
+      - 'ng-v[0-9]+.[0-9]+.[0-9]+'   # e.g. ng-v1.0.0
+
+jobs:
+  publish:
+    name: Release to npm
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: npm
+          cache-dependency-path: ng-auth-lib/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ng-auth-lib
+        run: npm ci
+
+      - name: Run tests
+        working-directory: ng-auth-lib
+        run: npm test
+
+      - name: Build library
+        working-directory: ng-auth-lib
+        run: npm run build
+
+      - name: Publish to npm
+        working-directory: ng-auth-lib/dist/ng-auth-lib
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true

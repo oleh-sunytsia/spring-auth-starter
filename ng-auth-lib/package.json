@@ -2,18 +2,25 @@
   "name": "@benatti/ng-auth-lib",
   "version": "0.0.1",
   "description": "Angular library for JWT authentication — pairs with benatti-auth-starter",
-  "keywords": ["angular", "auth", "jwt", "authentication", "authorization"],
+  "keywords": ["angular", "auth", "jwt", "authentication", "authorization", "security"],
   "license": "MIT",
   "author": "Benatti Dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/benatti-dev/ng-auth-lib"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "peerDependencies": {
-    "@angular/common": ">=16.0.0",
-    "@angular/core": ">=16.0.0",
-    "@angular/router": ">=16.0.0",
+    "@angular/common": ">=17.0.0",
+    "@angular/core": ">=17.0.0",
+    "@angular/router": ">=17.0.0",
     "rxjs": ">=7.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@angular/router": { "optional": false }
   },
   "devDependencies": {
     "@angular/common": "^17.3.0",
@@ -36,7 +43,10 @@
   },
   "scripts": {
     "build": "ng-packagr -p ng-package.json",
+    "build:watch": "ng-packagr -p ng-package.json --watch",
+    "prepublishOnly": "npm run build",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "lint": "tsc --noEmit -p tsconfig.json"
   }
 }
