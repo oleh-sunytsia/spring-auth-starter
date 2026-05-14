@@ -38,9 +38,11 @@ jobs:
         working-directory: ng-auth-lib
         run: npm run build
 
-      - name: Publish to npm (Trusted Publishing via OIDC — no token needed)
+      - name: Publish to npm
         working-directory: ng-auth-lib/dist/ng-auth-lib
         run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
