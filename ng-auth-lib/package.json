@@ -1,8 +1,15 @@
 {
   "name": "@benatti/ng-auth-lib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Angular library for JWT authentication — pairs with benatti-auth-starter",
-  "keywords": ["angular", "auth", "jwt", "authentication", "authorization", "security"],
+  "keywords": [
+    "angular",
+    "auth",
+    "jwt",
+    "authentication",
+    "authorization",
+    "security"
+  ],
   "license": "MIT",
   "author": "Benatti Dev",
   "repository": {
@@ -20,7 +27,9 @@
     "rxjs": ">=7.5.0"
   },
   "peerDependenciesMeta": {
-    "@angular/router": { "optional": false }
+    "@angular/router": {
+      "optional": false
+    }
   },
   "devDependencies": {
     "@angular/common": "^17.3.0",

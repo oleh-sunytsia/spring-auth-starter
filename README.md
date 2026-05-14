@@ -22,7 +22,7 @@ Production-ready Spring Boot 3.x starter library for JWT authentication and auth
 
 ```xml
 <dependency>
-    <groupId>com.benatti</groupId>
+    <groupId>io.github.benatti-dev</groupId>
     <artifactId>benatti-auth-starter</artifactId>
     <version>1.0.0</version>
 </dependency>

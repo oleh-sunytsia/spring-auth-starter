@@ -25,7 +25,7 @@ gpg --export-secret-keys <KEY_ID> | base64
 ### Sonatype Central Portal account
 
 1. Register at [central.sonatype.com](https://central.sonatype.com)
-2. Claim namespace `com.benatti` (verify via DNS TXT record or GitHub)
+2. Claim namespace `io.github.benatti-dev` (auto-verified via GitHub OAuth)
 3. Generate a **User Token** (Account → User Token)
 
 ### npm account
@@ -95,7 +95,7 @@ The [`.github/workflows/java-publish.yml`](.github/workflows/java-publish.yml) w
 
 ```xml
 <dependency>
-  <groupId>com.benatti</groupId>
+  <groupId>io.github.benatti-dev</groupId>
   <artifactId>benatti-auth-starter</artifactId>
   <version>1.0.0</version>
 </dependency>

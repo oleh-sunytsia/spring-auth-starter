@@ -10,6 +10,11 @@ jobs:
     name: Release to npm
     runs-on: ubuntu-latest
 
+    # Required for npm Trusted Publishing (OIDC)
+    permissions:
+      contents: write
+      id-token: write
+
     steps:
       - uses: actions/checkout@v4
 
@@ -33,11 +38,9 @@ jobs:
         working-directory: ng-auth-lib
         run: npm run build
 
-      - name: Publish to npm
+      - name: Publish to npm (Trusted Publishing via OIDC — no token needed)
         working-directory: ng-auth-lib/dist/ng-auth-lib
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
