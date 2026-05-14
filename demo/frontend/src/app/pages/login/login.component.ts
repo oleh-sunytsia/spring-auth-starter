@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { AuthService } from '../../../../../ng-auth-lib/src/public-api';
+import { AuthService } from '@benatti/ng-auth-lib';
 
 @Component({
   selector: 'app-login',

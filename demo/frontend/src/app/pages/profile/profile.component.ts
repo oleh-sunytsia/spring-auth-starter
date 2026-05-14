@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { AuthService, TokenDecoderService, TokenStorageService } from '../../../../../ng-auth-lib/src/public-api';
+import { AuthService, TokenDecoderService, TokenStorageService } from '@benatti/ng-auth-lib';
 
 interface TokenInfo {
   userId: string;

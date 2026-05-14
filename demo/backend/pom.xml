@@ -34,11 +34,11 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- ── benatti-auth-starter (install locally first: see README) ── -->
+        <!-- ── benatti-auth-starter (from Maven Central) ────────────── -->
         <dependency>
             <groupId>io.github.benatti-dev</groupId>
             <artifactId>benatti-auth-starter</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
 
         <!-- ── Spring Boot starters ──────────────────────────────────── -->

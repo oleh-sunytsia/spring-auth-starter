@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AsyncPipe, JsonPipe, NgFor, NgIf } from '@angular/common';
-import { AuthService } from '../../../../../ng-auth-lib/src/public-api';
+import { AuthService } from '@benatti/ng-auth-lib';
 
 interface UserProfile {
   userId: string;

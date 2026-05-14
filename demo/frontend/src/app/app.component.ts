@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { AuthService } from '../../../ng-auth-lib/src/public-api';
+import { AuthService } from '@benatti/ng-auth-lib';
 
 @Component({
   selector: 'app-root',

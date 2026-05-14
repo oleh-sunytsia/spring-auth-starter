@@ -1,198 +1,224 @@
-# Benatti Auth Starter
+# Benatti Auth Framework
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.benatti-dev/benatti-auth-starter?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.benatti-dev/benatti-auth-starter)
+[![npm](https://img.shields.io/npm/v/%40benatti%2Fng-auth-lib?label=npm)](https://www.npmjs.com/package/@benatti/ng-auth-lib)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Java Version](https://img.shields.io/badge/Java-17%2B-brightgreen)]()
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.1%2B-brightgreen)]()
+[![Java](https://img.shields.io/badge/Java-17%2B-orange)](https://adoptium.net)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3-brightgreen)](https://spring.io/projects/spring-boot)
+[![Angular](https://img.shields.io/badge/Angular-17-red)](https://angular.dev)
 
-Production-ready Spring Boot 3.x starter library for JWT authentication and authorization.
+Full-stack JWT authentication framework for Spring Boot + Angular applications.  
+Drop in two libraries, implement one interface — get a complete auth system.
 
-## 📚 Features
+---
 
-- ✅ **JWT Authentication** - Support for HMAC and RSA algorithms
-- ✅ **Token Refresh** - Long-lived tokens with lifecycle management
-- ✅ **Multi-Device** - Support for multiple active sessions on devices
-- ✅ **Extensibility** - 100% customizable through interfaces and DI
-- ✅ **Security** - OWASP best practices, rate limiting, CORS
-- ✅ **Event-Driven** - Event system for cross-cutting concerns
-- ✅ **Production-Ready** - Metrics, logging, error handling
+## What's inside
 
-## 🚀 Quick Start
+This monorepo ships two libraries that work together out of the box:
 
-### 1. Add Dependency
+| Library | Language | Registry |
+|---------|----------|----------|
+| [`benatti-auth-starter`](benatti-auth-starter/) | Java 17 / Spring Boot 3 | Maven Central |
+| [`@benatti/ng-auth-lib`](ng-auth-lib/) | TypeScript / Angular 17 | npm |
+
+The backend library exposes four auth endpoints (`/login`, `/refresh`, `/logout`, `/validate`) and handles everything — JWT signing, token rotation, refresh token storage, Spring Security wiring.  
+The frontend library consumes those endpoints through a service, two HTTP interceptors, and two route guards — with zero extra configuration in your app.
+
+---
+
+## Installation
+
+### Backend
 
 ```xml
 <dependency>
-    <groupId>io.github.benatti-dev</groupId>
-    <artifactId>benatti-auth-starter</artifactId>
-    <version>1.0.0</version>
+  <groupId>io.github.benatti-dev</groupId>
+  <artifactId>benatti-auth-starter</artifactId>
+  <version>1.0.1</version>
 </dependency>
 ```
 
-### 2. Configuration application.yml
+### Frontend
 
-```yaml
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/auth_db
-    username: postgres
-    password: postgres
-
-auth:
-  enabled: true
-  jwt-secret: your-super-secret-jwt-key-min-32-chars-long!
-  jwt-algorithm: HS256
-  access-token-expiration-minutes: 60
-  refresh-token-expiration-days: 30
-  refresh-token-storage: jpa
-  allowed-origins: http://localhost:4200
+```bash
+npm install @benatti/ng-auth-lib
 ```
 
-### 3. Implement UserDetailsProvider
+---
+
+## 5-minute setup
+
+### Backend — implement one interface
 
 ```java
 @Configuration
 public class AuthConfig {
-    
+
     @Bean
-    public UserDetailsProvider userDetailsProvider(UserRepository userRepository) {
+    public UserDetailsProvider userDetailsProvider(UserRepository repo) {
         return new UserDetailsProvider() {
             @Override
             public AuthUserDetails loadUserByUsername(String username) {
-                User user = userRepository.findByUsername(username)
+                User u = repo.findByUsername(username)
                     .orElseThrow(() -> new UsernameNotFoundException(username));
-                return mapToAuthUserDetails(user);
+                return new DefaultAuthUserDetails(
+                    u.getId(), u.getUsername(), u.getPassword(), u.getEmail(),
+                    mapRoles(u), mapPermissions(u)
+                );
             }
-            
+
             @Override
-            public AuthUserDetails loadUserById(String userId) {
-                User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new UserNotFoundException(userId));
-                return mapToAuthUserDetails(user);
+            public AuthUserDetails loadUserById(String id) {
+                User u = repo.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException(id));
+                return new DefaultAuthUserDetails(
+                    u.getId(), u.getUsername(), u.getPassword(), u.getEmail(),
+                    mapRoles(u), mapPermissions(u)
+                );
             }
         };
     }
 }
 ```
 
-### 4. Run
-
-```bash
-mvn spring-boot:run
+```yaml
+# application.yml
+auth:
+  jwt-secret: "your-secret-key-at-least-32-characters-long"
+  access-token-expiration-minutes: 60
+  refresh-token-expiration-days: 30
+  refresh-token-storage: jpa          # in-memory | jpa | redis
+  allowed-origins: http://localhost:4200
 ```
 
-## 📖 Documentation
+### Frontend — call `provideAuth` once
 
-- [IMPLEMENTATION_PLAN.md](../IMPLEMENTATION_PLAN.md) - Full implementation plan
-- [EXTENSIBILITY_PATTERNS.md](../EXTENSIBILITY_PATTERNS.md) - Extension patterns
-
-## 🏗️ Project Structure
-
-```
-benatti-auth-starter/
-├── pom.xml
-├── PHASE_1_ARCHITECTURE.md
-└── src/main/java/com/benatti/auth/
-    ├── auth/           - Main services
-    ├── jwt/            - JWT providers
-    ├── user/           - User management
-    ├── storage/        - Token storage
-    ├── dto/            - Data Transfer Objects
-    └── exception/      - Custom exceptions
+```typescript
+// main.ts
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes),
+    provideAuth({
+      apiEndpoint:  'http://localhost:8080',
+      loginUrl:     '/api/auth/login',
+      refreshUrl:   '/api/auth/refresh',
+      logoutUrl:    '/api/auth/logout',
+      validateUrl:  '/api/auth/validate',
+    }),
+  ],
+});
 ```
 
-## 🔐 API Endpoints
-
-### Login
-```
-POST /api/auth/login
-Content-Type: application/json
-
-{
-  "username": "john.doe",
-  "password": "password123"
-}
+```typescript
+// app.routes.ts
+export const routes: Routes = [
+  { path: 'login',     component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
+  { path: 'admin',     component: AdminComponent,     canActivate: [authGuard, roleGuard], data: { roles: ['ADMIN'] } },
+];
 ```
 
-**Response (200 OK)**:
-```json
-{
-  "accessToken": "eyJhbGciOiJIUzI1NiIs...",
-  "refreshToken": "eyJhbGciOiJIUzI1NiIs...",
-  "expiresIn": 3600,
-  "user": {
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "username": "john.doe",
-    "email": "john@example.com",
-    "roles": ["USER", "ADMIN"],
-    "permissions": ["READ:USERS", "WRITE:USERS"]
-  }
-}
-```
-
-### Refresh Token
-```
-POST /api/auth/refresh
-Content-Type: application/json
-
-{
-  "refreshToken": "eyJhbGciOiJIUzI1NiIs..."
-}
-```
-
-### Validate Token
-```
-GET /api/auth/validate
-Authorization: Bearer {accessToken}
-```
-
-**Response (200 OK)**:
-```json
-{
-  "valid": true,
-  "userId": "550e8400-e29b-41d4-a716-446655440000",
-  "roles": ["USER", "ADMIN"],
-  "permissions": ["READ:USERS", "WRITE:USERS"]
-}
-```
-
-## 🎯 Development Status
-
-### Phase 1: ✅ Architecture (Complete)
-- [x] Interfaces and contracts
-- [x] DTO models
-- [x] Exception classes
-
-### Phase 2: ✅ Backend Implementation
-- [x] JWT providers (HMAC, RSA)
-- [x] AuthService implementation
-- [x] Spring Security configuration
-- [x] REST controllers
-- [x] Unit tests
-
-### Phase 3: ✅ Frontend (Angular)
-- [x] ng-auth-lib library
-- [x] Guards and Interceptors
-- [x] AuthService and Storage
-- [x] Unit tests
-
-### Phase 4: ✅ Demo Integration
-- [x] Demo backend app
-- [x] Demo frontend app
-
-### Phase 5: CI/CD & Publication
-- [ ] GitHub Actions workflows
-- [ ] Maven Central publication
-- [ ] npm publication
-
-## 🤝 Contributing
-
-Contributions are welcome! Please create a Pull Request.
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file
+That's it. The interceptors attach `Authorization: Bearer …` to every request and silently refresh the access token before it expires.
 
 ---
 
-**Developer**: Benatti Dev
-**Version**: 1.0.0 (In Development)
+## How it works
+
+```
+Browser                    Angular App                   Spring Boot
+  │                            │                              │
+  │──── POST /api/auth/login ──►│                              │
+  │                            │──── POST /api/auth/login ───►│
+  │                            │◄─── { accessToken,           │
+  │                            │       refreshToken }         │
+  │                            │ (stored in localStorage)     │
+  │                            │                              │
+  │──── GET /api/protected ───►│                              │
+  │                            │  JwtBearerInterceptor adds   │
+  │                            │  Authorization header        │
+  │                            │──── GET /api/protected ─────►│
+  │                            │◄─── 200 OK ─────────────────│
+  │                            │                              │
+  │                            │  token about to expire?      │
+  │                            │──── POST /api/auth/refresh ─►│
+  │                            │◄─── { new accessToken } ────│
+```
+
+The `AuthErrorInterceptor` catches any `401` response, refreshes the token in the background, then retries the original request — transparent to the user.
+
+---
+
+## Project structure
+
+```
+.
+├── benatti-auth-starter/      Java library (Spring Boot starter)
+│   └── src/main/java/com/benatti/auth/
+│       ├── auth/              AuthService
+│       ├── jwt/               JwtProvider (HMAC / RSA)
+│       ├── user/              UserDetailsProvider interface
+│       ├── storage/           RefreshToken + repository
+│       ├── dto/               Request / response DTOs
+│       └── exception/         Typed exception hierarchy
+│
+├── ng-auth-lib/               Angular library (ng-packagr)
+│   └── src/lib/
+│       ├── services/          AuthService, TokenStorageService, TokenDecoderService
+│       ├── interceptors/      JwtBearerInterceptor, AuthErrorInterceptor
+│       ├── guards/            authGuard, roleGuard
+│       └── providers/         provideAuth()
+│
+└── demo/                      End-to-end demo application
+    ├── README.md
+    ├── backend/               Spring Boot app (uses benatti-auth-starter from Maven Central)
+    └── frontend/              Angular app    (uses @benatti/ng-auth-lib from npm)
+```
+
+---
+
+## API endpoints
+
+All endpoints are auto-registered by the starter — no `@RestController` needed in your code.
+
+| Method | Path | Auth required | Description |
+|--------|------|:---:|-------------|
+| `POST` | `/api/auth/login` | — | Authenticate and receive tokens |
+| `POST` | `/api/auth/refresh` | — | Rotate access + refresh tokens |
+| `POST` | `/api/auth/logout` | Bearer | Invalidate current session |
+| `GET` | `/api/auth/validate` | Bearer | Validate token and return claims |
+
+---
+
+## Running the demo
+
+```bash
+# Terminal 1 — backend (port 8080)
+cd demo/backend
+mvn spring-boot:run
+
+# Terminal 2 — frontend (port 4200)
+cd demo/frontend
+npm install && npm start
+```
+
+Open [http://localhost:4200](http://localhost:4200).  
+Demo accounts: `alice / password` (USER) and `bob / password` (USER + ADMIN).
+
+See [demo/README.md](demo/README.md) for full details.
+
+---
+
+## Documentation
+
+| Doc | Description |
+|-----|-------------|
+| [SETUP_GUIDE_AND_API_REFERENCE.md](SETUP_GUIDE_AND_API_REFERENCE.md) | Full setup guide and API reference |
+| [RELEASE.md](RELEASE.md) | Release process for Maven Central & npm |
+| [CHANGELOG.md](CHANGELOG.md) | Version history |
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, roleGuard } from '../../../ng-auth-lib/src/public-api';
+import { authGuard, roleGuard } from '@benatti/ng-auth-lib';
 
 export const routes: Routes = [
   {
