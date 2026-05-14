@@ -162,17 +162,18 @@ Authorization: Bearer {accessToken}
 - [x] DTO models
 - [x] Exception classes
 
-### Phase 2: 🔄 Backend Implementation
+### Phase 2: ✅ Backend Implementation
 - [x] JWT providers (HMAC, RSA)
 - [x] AuthService implementation
 - [x] Spring Security configuration
 - [x] REST controllers
-- [ ] Unit tests
+- [x] Unit tests
 
-### Phase 3: Frontend (Angular)
-- [ ] ng-auth-lib library
-- [ ] Guards and Interceptors
-- [ ] AuthService and Storage
+### Phase 3: ✅ Frontend (Angular)
+- [x] ng-auth-lib library
+- [x] Guards and Interceptors
+- [x] AuthService and Storage
+- [x] Unit tests
 
 ### Phase 4: Demo Integration
 - [ ] Demo backend app
