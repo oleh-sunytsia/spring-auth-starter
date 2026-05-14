@@ -231,7 +231,8 @@
                                 <phase>verify</phase>
                                 <goals><goal>sign</goal></goals>
                                 <configuration>
-                                    <!-- Use env var to avoid interactive prompt in CI -->
+                                    <!-- Read passphrase from env GPG_PASSPHRASE (set in CI) -->
+                                    <passphrase>${env.GPG_PASSPHRASE}</passphrase>
                                     <gpgArguments>
                                         <arg>--pinentry-mode</arg>
                                         <arg>loopback</arg>
