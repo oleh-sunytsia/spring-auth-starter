@@ -4,6 +4,7 @@ import {
   HttpHandlerFn,
   HttpInterceptorFn,
   HttpErrorResponse,
+  HttpEvent,
 } from '@angular/common/http';
 import {
   throwError,
@@ -54,7 +55,7 @@ function handle401(
   next: HttpHandlerFn,
   authService: AuthService,
   tokenStorage: TokenStorageService
-): Observable<unknown> {
+): Observable<HttpEvent<unknown>> {
   if (isRefreshing) {
     // Queue until the ongoing refresh completes
     return refreshTokenSubject$.pipe(

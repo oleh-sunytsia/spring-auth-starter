@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: demo-backend-app
+
+  # H2 console for inspecting in-memory data during development
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+server:
+  port: 8080
+
+# ── benatti-auth-starter configuration ────────────────────────────────────────
+auth:
+  enabled: true
+
+  # IMPORTANT: change this secret before going to production!
+  jwt-secret: demo-super-secret-key-must-be-at-least-32-characters-long!
+
+  access-token-expiration-minutes: 60
+  refresh-token-expiration-days: 7
+  token-issuer: benatti-demo
+  base-path: /api/auth
+
+  # In-memory token store — suitable for single-node demo only
+  in-memory-token-store: true
+
+  # CORS — allow the Angular dev server
+  cors-allowed-origins:
+    - http://localhost:4200
+  cors-allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - OPTIONS
+  cors-allowed-headers:
+    - "*"
+
+  # Public paths that bypass JWT authentication
+  public-paths:
+    - /api/auth/**
+    - /h2-console/**
+    - /actuator/health
+
+# ── Logging ────────────────────────────────────────────────────────────────────
+logging:
+  level:
+    com.benatti: DEBUG
+    org.springframework.security: INFO

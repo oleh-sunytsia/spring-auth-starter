@@ -7,7 +7,7 @@
 
     <groupId>com.benatti</groupId>
     <artifactId>benatti-auth-starter</artifactId>
-    <version>1.0.0</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
 
     <name>Benatti Auth Starter</name>

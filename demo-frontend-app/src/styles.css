@@ -1,0 +1,88 @@
+/* ── Global styles for the demo application ─────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* ── Layout helpers ───────────────────────────────────────────────── */
+.container   { max-width: 960px; margin: 0 auto; padding: 0 1rem; }
+.card        { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.1); padding: 2rem; }
+.center      { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+
+/* ── Navbar ──────────────────────────────────────────────────────── */
+.navbar {
+  background: #1a237e;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.navbar .brand { font-size: 1.2rem; font-weight: 700; flex: 1; }
+.navbar a   { color: #c5cae9; text-decoration: none; font-size: .95rem; }
+.navbar a:hover { color: #fff; }
+.navbar .logout-btn {
+  background: #e53935;
+  border: none;
+  color: #fff;
+  padding: .4rem .9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: .9rem;
+}
+
+/* ── Forms ──────────────────────────────────────────────────────── */
+.form-group      { margin-bottom: 1.25rem; }
+.form-group label { display: block; margin-bottom: .4rem; font-weight: 600; font-size: .9rem; }
+.form-control {
+  width: 100%;
+  padding: .6rem .8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.form-control:focus { outline: none; border-color: #3949ab; box-shadow: 0 0 0 2px rgba(57,73,171,.15); }
+
+/* ── Buttons ─────────────────────────────────────────────────────── */
+.btn {
+  display: inline-block;
+  padding: .65rem 1.5rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: opacity .2s;
+}
+.btn:disabled { opacity: .6; cursor: not-allowed; }
+.btn-primary  { background: #3949ab; color: #fff; }
+.btn-primary:hover:not(:disabled) { background: #283593; }
+.btn-danger   { background: #e53935; color: #fff; }
+
+/* ── Alerts ──────────────────────────────────────────────────────── */
+.alert { padding: .75rem 1rem; border-radius: 4px; margin-bottom: 1rem; font-size: .9rem; }
+.alert-danger  { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+.alert-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.alert-info    { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+
+/* ── Badge ───────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: .2rem .6rem;
+  border-radius: 12px;
+  font-size: .78rem;
+  font-weight: 600;
+  margin-right: .3rem;
+}
+.badge-user  { background: #e8eaf6; color: #3949ab; }
+.badge-admin { background: #fce4ec; color: #c62828; }
+
+/* ── Content sections ────────────────────────────────────────────── */
+.page-header { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: #1a237e; }
+.info-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+.info-item label { font-size: .8rem; color: #888; text-transform: uppercase; letter-spacing: .05em; }
+.info-item p     { font-size: 1.05rem; margin-top: .2rem; }
