@@ -32,7 +32,7 @@ mvn install -DskipTests
 cd ..
 ```
 
-> This places `com.benatti:benatti-auth-starter:0.0.1-SNAPSHOT` in your local
+> This places `com.benatti:benatti-auth-starter:1.0.0` in your local
 > Maven repository so that `demo-backend-app` can resolve it.
 
 ---

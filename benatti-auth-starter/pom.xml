@@ -7,12 +7,12 @@
 
     <groupId>com.benatti</groupId>
     <artifactId>benatti-auth-starter</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>Benatti Auth Starter</name>
     <description>Production-ready Spring Boot starter for JWT authentication and authorization</description>
-    <url>https://github.com/benatti-dev/benatti-auth-starter</url>
+    <url>https://github.com/oleh-sunytsia/benatti-auth-starter</url>
 
     <licenses>
         <license>

@@ -1,6 +1,6 @@
 {
   "name": "@benatti/ng-auth-lib",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Angular library for JWT authentication — pairs with benatti-auth-starter",
   "keywords": ["angular", "auth", "jwt", "authentication", "authorization", "security"],
   "license": "MIT",

@@ -195,4 +195,4 @@ MIT License - see [LICENSE](LICENSE) file
 ---
 
 **Developer**: Benatti Dev
-**Version**: 0.0.1 (In Development)
+**Version**: 1.0.0 (In Development)

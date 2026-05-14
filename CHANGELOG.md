@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [0.0.1] — 2026-05-14
+## [1.0.0] — 2026-05-14
 
 ### benatti-auth-starter (Java)
 
