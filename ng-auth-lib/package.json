@@ -14,7 +14,7 @@
   "author": "Benatti Dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/benatti-dev/ng-auth-lib"
+    "url": "https://github.com/benatti-dev/spring-auth-starter"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
